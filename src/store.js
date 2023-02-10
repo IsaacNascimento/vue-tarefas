@@ -3,16 +3,20 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-const defaultState = {
+const state = {
   tarefas: [],
+  loading: false,
 };
 
 const actions = {
   addTarefa({ commit }, tarefa) {
-    return new Promise(() => {
+    commit("setLoading", true);
+    return new Promise((resolve) => {
       setTimeout(() => {
         tarefa.id = Date.now();
         commit("addTarefa", tarefa);
+        commit("setLoading", false);
+        resolve(tarefa);
       }, 1000);
     });
   },
@@ -20,12 +24,15 @@ const actions = {
 
 const mutations = {
   addTarefa(state, payload) {
-    defaultState.tarefas.push(payload);
+    state.tarefas.push(payload);
+  },
+  setLoading(state, payload) {
+    state.loading = payload;
   },
 };
 
 export const store = new Vuex.Store({
-  defaultState,
+  state,
   mutations,
   actions,
 });
