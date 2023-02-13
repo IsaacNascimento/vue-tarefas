@@ -18,6 +18,7 @@
 
 <script>
 import Tarefa from '../components/Tarefa-cpnt';
+// import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -34,24 +35,17 @@ export default {
     },
   },
   methods: {
+    // ...mapActions(['addTarefa', 'toggleTarefa', 'removeTarefa']),
+
     async addTarefa(tarefa) {
         await this.$store.dispatch("addTarefa", tarefa);
         this.tarefa = { checked: false };
     },
     toggleTarefa(tarefa) {
-      const index = this.tarefas.findIndex(item => item.id === tarefa.id);
-      if (index >= 0) {
-        const checked = !this.tarefas[index].checked;
-        // this.tarefas[index].checked = checked;
-        this.$set(this.tarefas, index, { ...this.tarefas[index], checked });
-      }
+      this.$store.dispatch('toggleTarefa', tarefa);
     },
     removeTarefa(tarefa) {
-      const index = this.tarefas.findIndex(item => item.id === tarefa.id);
-      if (index >= 0) {
-        // this.tarefas.splice(index, 1);
-        this.$delete(this.tarefas, index);
-      }
+      this.$store.dispatch('removeTarefa', tarefa);
     }
   }
 };
