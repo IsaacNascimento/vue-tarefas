@@ -17,7 +17,7 @@ const actions = {
         commit("addTarefa", tarefa);
         commit("setLoading", false);
         resolve(tarefa);
-      }, 1000);
+      }, 500);
     });
   },
 

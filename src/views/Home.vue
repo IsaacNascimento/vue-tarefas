@@ -18,7 +18,8 @@
 
 <script>
 import Tarefa from '../components/Tarefa-cpnt';
-// import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex';
+
 
 export default {
   name: 'App',
@@ -27,26 +28,15 @@ export default {
     return { tarefa: { checked: false } };
   },
   computed: {
-    tarefas() {
-      return this.$store.state.tarefas;
-    },
-    loading() {
-      return this.$store.state.loading;
-    },
+    ...mapState(['tarefas', 'loading']),
   },
   methods: {
-    // ...mapActions(['addTarefa', 'toggleTarefa', 'removeTarefa']),
+    ...mapActions(['addTarefa', 'toggleTarefa', 'removeTarefa']),
 
     async addTarefa(tarefa) {
         await this.$store.dispatch("addTarefa", tarefa);
         this.tarefa = { checked: false };
     },
-    toggleTarefa(tarefa) {
-      this.$store.dispatch('toggleTarefa', tarefa);
-    },
-    removeTarefa(tarefa) {
-      this.$store.dispatch('removeTarefa', tarefa);
-    }
   }
 };
 </script>
