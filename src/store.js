@@ -17,7 +17,7 @@ const actions = {
         commit("addTarefa", tarefa);
         commit("setLoading", false);
         resolve(tarefa);
-      }, 500);
+      }, 150);
     });
   },
 
@@ -27,6 +27,15 @@ const actions = {
 
   removeTarefa({ commit }, tarefa) {
     commit("removeTarefa", tarefa);
+  },
+};
+
+const getters = {
+  uncheckeds(state) {
+    return state.tarefas.filter((tarefa) => tarefa.checked === false);
+  },
+  checkeds(state) {
+    return state.tarefas.filter((tarefa) => tarefa.checked === true);
   },
 };
 
@@ -58,4 +67,5 @@ export const store = new Vuex.Store({
   state,
   mutations,
   actions,
+  getters,
 });
