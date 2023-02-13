@@ -28,6 +28,27 @@ const actions = {
   removeTarefa({ commit }, tarefa) {
     commit("removeTarefa", tarefa);
   },
+
+  checkAll({ commit, state }) {
+    const uncheckItemsId = state.tarefas
+      .filter((tarefa) => !tarefa.checked)
+      .map((itemsNaoChecados) => itemsNaoChecados.id);
+    commit("toggleList", uncheckItemsId);
+  },
+
+  uncheckAll({ commit, state }) {
+    const checkItemsId = state.tarefas
+      .filter((tarefa) => tarefa.checked)
+      .map((itemsNaoChecados) => itemsNaoChecados.id);
+    commit("toggleList", checkItemsId);
+  },
+
+  removeAllCheckeds({ commit, state }) {
+    const checkeds = state.tarefas
+      .filter((tarefa) => tarefa.checked)
+      .map((nonCheckedItem) => nonCheckedItem.id);
+    commit("removeList", checkeds);
+  },
 };
 
 const getters = {
@@ -60,6 +81,22 @@ const mutations = {
     return (state.tarefas = state.tarefas.filter(
       (item) => item.id !== payload.id
     ));
+  },
+
+  toggleList(state, tarefaId) {
+    const tarefas = state.tarefas.map((item) => {
+      return tarefaId.includes(item.id)
+        ? { ...item, checked: !item.checked }
+        : item;
+    });
+    state.tarefas = tarefas;
+  },
+
+  removeList(state, tarefasId) {
+    const tarefas = state.tarefas.filter(
+      (item) => !tarefasId.includes(item.id)
+    );
+    state.tarefas = tarefas;
   },
 };
 
